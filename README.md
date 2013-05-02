@@ -3,7 +3,7 @@ Snap Usage Monitor extension for Google Chrome
 
 [**Click here to get this extension from the Chrome Web Store**](https://chrome.google.com/webstore/detail/snap-usage-monitor/okffoefibimfmcddjbmbfnlbjdpjokkn)
 
-![](https://github.com/ChrisNZL/snap-chrome/blob/master/screenshot.png?raw=true)
+![](http://iforce.co.nz/i/ff1x3gvo.dgz.png)
 
 If Snap is your ISP, this extension lets you view details of your data usage with the click of a button:
 * Data used
