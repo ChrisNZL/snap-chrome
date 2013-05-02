@@ -1,12 +1,9 @@
-snap-chrome
+Snap Usage Monitor extension for Google Chrome
 ===========
 
-Snap Usage Monitor extension for Google Chrome
+[**Click here to get this extension from the Chrome Web Store**](https://chrome.google.com/webstore/detail/snap-usage-monitor/okffoefibimfmcddjbmbfnlbjdpjokkn)
 
-You can install this extension from the Chrome Web Store:
-https://chrome.google.com/webstore/detail/snap-usage-monitor/okffoefibimfmcddjbmbfnlbjdpjokkn
-
-The source code is here on GitHub for all to see, anyway.
+![](https://github.com/ChrisNZL/snap-chrome/blob/master/screenshot.png?raw=true)
 
 If Snap is your ISP, this extension lets you view details of your data usage with the click of a button:
 * Data used
@@ -21,4 +18,6 @@ And a visual progress bar that displays:
 * Percentage of data used towards your limit
 * How far through the billing period you are
 
-Requires Chrome version 26 or higher.
+**Requires Google Chrome or Chromium version 26 or higher.**
+
+For extensions for other browsers, please view my other [repositories](https://github.com/ChrisNZL?tab=repositories).
