@@ -48,6 +48,12 @@ function displayUsageInfo () {
 		}
 		// You are on day X of Y
 		var timeTooltipText = 'You are on day ' + Math.ceil(u.daysElapsed) + ' of ' + u.daysInBillingPeriod + ' in the current billing period.';
+		if (date('j F', u.billingPeriodEndTime) == date('j F')) {
+			timeTooltipText += '\nBilling period resets today @ '+date('g:ia', u.billingPeriodEndTime)+'.';
+		} else {
+			timeTooltipText += '\nBilling period resets on '+date('j F Y @ g:ia', u.billingPeriodEndTime)+'.';
+		}
+			
 		$('#timeRemaining').html('<span class="tooltip" title="'+timeTooltipText+'">'+$('#timeRemaining').text()+'</span>');
 		
 		// Time last updated

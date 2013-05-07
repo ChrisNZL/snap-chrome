@@ -12,7 +12,7 @@ function getUsageInfoObject (dataService) {
 	var daysElapsedPercentage = daysElapsed / daysInBillingPeriod;
 	var secondsRemaining = billingPeriodEndTime - time();
 	var hoursRemaining = secondsRemaining / 3600; // (60 seconds * 60 minutes)
-	var daysRemaining = secondsRemaining / 86400; 
+	var daysRemaining = secondsRemaining / 86400;
 	var averageDailyUsage = dataUsed / daysElapsed;
 	var monthlyEstimate = averageDailyUsage * daysInBillingPeriod;
 	var suggestedDailyUsage = dataRemaining / daysRemaining;

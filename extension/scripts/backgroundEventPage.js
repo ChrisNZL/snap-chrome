@@ -1,5 +1,5 @@
 // Function to create a custom browser action icon for the extension
-function createBrowserActionIcon ( /*barColor, barPercentage, notchPercentage*/ ) {
+function createBrowserActionIcon () {
 	
 	// Only create icon if dataService storage info exists
 	chrome.storage.local.get('dataService', function(storage){
