@@ -37,7 +37,17 @@ function displayUsageInfo () {
 		
 		// Time remaining
 		if (u.daysRemaining >= 1) {
-			$('#timeRemaining').text(number_format(Math.floor(u.daysRemaining), 0) + ' days');
+			var flooredDays = Math.floor(u.daysRemaining);
+			if (flooredDays == 1) {
+				var hrsCount = number_format(Math.floor(u.hoursRemaining) - 24, 0);
+				var hrsText = '';
+				if (hrsCount > 0) {
+					hrsText = ', ' + hrsCount + (hrsCount == 1 ? ' hour' : ' hrs');
+				}
+				$('#timeRemaining').text(number_format(flooredDays, 0) + ' day' + hrsText);
+			} else {
+				$('#timeRemaining').text(number_format(flooredDays, 0) + ' days');
+			}
 		} else {
 			if (u.hoursRemaining >= 1) {
 				var hoursRemainingFormatted = number_format(Math.floor(u.hoursRemaining), 0)
@@ -46,12 +56,13 @@ function displayUsageInfo () {
 				$('#timeRemaining').text('< 1 hour');
 			}
 		}
-		// You are on day X of Y
-		var timeTooltipText = 'You are on day ' + Math.ceil(u.daysElapsed) + ' of ' + u.daysInBillingPeriod + ' in the current billing period.';
+		
+		// Time remaining tooltip
+		var timeTooltipText;
 		if (date('j F', u.billingPeriodEndTime) == date('j F')) {
-			timeTooltipText += '\nBilling period resets today @ '+date('g:ia', u.billingPeriodEndTime)+'.';
+			timeTooltipText = 'Your billing period resets today @ '+date('g:ia', u.billingPeriodEndTime)+'.';
 		} else {
-			timeTooltipText += '\nBilling period resets on '+date('j F Y @ g:ia', u.billingPeriodEndTime)+'.';
+			timeTooltipText = 'Your billing period resets on '+date('j F Y @ g:ia', u.billingPeriodEndTime)+'.';
 		}
 			
 		$('#timeRemaining').html('<span class="tooltip" title="'+timeTooltipText+'">'+$('#timeRemaining').text()+'</span>');

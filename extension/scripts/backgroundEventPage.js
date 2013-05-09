@@ -188,7 +188,16 @@ function fetchDataUsage () {
 					var billingPeriodStartDate = $.trim(billingPeriodDates[0]);
 					var billingPeriodEndDate = $.trim(billingPeriodDates[1]);
 					var gigabyteLimit = $('td', tableRow).last().text().split(' ')[0];
-					var gigabytesRemaining = $('td', tableRow).last().prev().text().split(' ')[0];
+					var gigabytesRemaining;
+					var remainingCell = $('td', tableRow).last().prev();
+					var remainingNumbers = remainingCell.text().split(' ')[0];
+					// Remaining data cell is normally in GB
+					if (substr_count(remainingCell.text(), 'GB') == 1) {
+						gigabytesRemaining = remainingNumbers;
+					// But if there's less than 1 GB remaining, data is displayed in MB
+					} else {
+						gigabytesRemaining = remainingNumbers / 1024;
+					}
 					
 					// Record the time that this was fetched
 					chrome.storage.local.set({ timeDataWasLastFetched: time() });
