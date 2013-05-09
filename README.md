@@ -5,7 +5,7 @@ Snap Usage Monitor extension for Google Chrome
 
 ![](http://iforce.co.nz/i/ff1x3gvo.dgz.png)
 
-If Snap is your ISP, this extension lets you view details of your data usage with the click of a button:
+If Snap is your ISP in New Zealand, this extension lets you view details of your data usage with the click of a button:
 * Data used
 * Data remaining
 * Average daily usage
