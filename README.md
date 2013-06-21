@@ -8,6 +8,7 @@ Snap Usage Monitor extension for Google Chrome
 If Snap is your ISP in New Zealand, this extension lets you view details of your data usage with the click of a button:
 * Data used
 * Data remaining
+* Off-peak data used (if you have uncapped nights from 1am-7am)
 * Average daily usage
 * Billing period estimate
 * Suggested daily usage
@@ -18,6 +19,4 @@ And a visual progress bar that displays:
 * Percentage of data used towards your limit
 * How far through the billing period you are
 
-**Requires Google Chrome or Chromium version 26 or higher.**
-
-For extensions for other browsers, please view my other [repositories](https://github.com/ChrisNZL?tab=repositories).
+**Requires Google Chrome or Chromium version 27 or higher.**
