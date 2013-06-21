@@ -47,6 +47,8 @@ img#dismiss:hover { opacity:1; }
 td#networkStatus:hover img#dismiss { display:inline; }
 td#networkStatus.networkIsNotOkay { text-align:center; }
 
+tr.offpeakData { display:none; }
+
 /* PERCENTAGE PROGRESS BAR */
 #percentageBar { height:12px; border-radius:2px; cursor:help; overflow:hidden; position:relative; margin-top:1px;
 	box-shadow:

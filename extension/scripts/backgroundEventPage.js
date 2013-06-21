@@ -50,7 +50,7 @@ function createBrowserActionIcon () {
 				
 				// Percentage bar - either green, orange, or red
 				var barColorImage;	
-				var u = getUsageInfoObject(dataService);			
+				var u = getUsageInfoObject(dataService);
 				switch (u.barColor) {
 					case 'green':
 						barColorImage = images.barGreen;
@@ -199,6 +199,14 @@ function fetchDataUsage () {
 						gigabytesRemaining = remainingNumbers / 1024;
 					}
 					
+					// See if user has uncapped nights
+					var uncappedNightsEnabled = false;
+					$('div#mod-id > p', result).each(function(){
+						if ($(this).text() == 'You currently have unlimited data between 1am and 7am.') {
+							uncappedNightsEnabled = true;
+						}
+					});
+					
 					// Record the time that this was fetched
 					chrome.storage.local.set({ timeDataWasLastFetched: time() });
 					
@@ -208,10 +216,14 @@ function fetchDataUsage () {
 						billingPeriodStartDate: billingPeriodStartDate,
 						billingPeriodEndDate: billingPeriodEndDate,
 						gigabyteLimit: gigabyteLimit,
-						gigabytesRemaining: gigabytesRemaining
+						gigabytesRemaining: gigabytesRemaining,
+						uncappedNightsEnabled: uncappedNightsEnabled
 					};
 					chrome.storage.local.set({ dataService: dataService }, function(){
 						createBrowserActionIcon();
+						if (dataService.uncappedNightsEnabled == true) {
+							fetchOffpeakDataUsage(dataService);
+						}
 						fetchNetworkStatus();
 						chrome.runtime.sendMessage(null, 'Data has been fetched and saved');
 					});
@@ -221,6 +233,28 @@ function fetchDataUsage () {
 				console.warn('Oops! Snap Usage Monitor failed to log in because:\n\n'+errorThrown);
 			});
 		}
+	});
+}
+
+// Function to retrieve offpeak/unlimited/free data (sits on a different page from the fetchDataUsage function)
+function fetchOffpeakDataUsage (dataService) {
+	// Example URL: https://myaccount.snap.net.nz/summary/dynamic/daily/?date=2013-06-10%2013:00:00
+	var u = getUsageInfoObject(dataService);
+	var dailyBreakdownUrl = 'https://myaccount.snap.net.nz/summary/dynamic/daily/?date=' + date('Y-m-d%20H:i:s', u.billingPeriodStartTime);
+	$.get(dailyBreakdownUrl)
+	.done(function(result){
+		if ($('div#total_usage td', result).length == 3) {
+			var uncappedNightsCell = $('div#total_usage td', result).last();
+			var usageText = $('b', uncappedNightsCell).text();
+			var usageParts = usageText.split(' ');
+			var gigabytes = usageParts[0] / (usageParts[1] == 'GB' ? 1 : 1024);
+			chrome.storage.local.set({ offpeakDataUsed: gigabytes }, function(){
+				chrome.runtime.sendMessage(null, 'Data has been fetched and saved');
+			});
+		}
+	})
+	.fail(function(jqXHR, textStatus, errorThrown){
+		console.warn('Oops! Snap Usage Monitor failed to fetch offpeak data usage because:\n\n'+errorThrown);
 	});
 }
 

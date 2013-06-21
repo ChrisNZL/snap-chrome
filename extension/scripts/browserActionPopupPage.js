@@ -1,7 +1,7 @@
 // Function to display usage info in the pop-up page
 function displayUsageInfo () {
 	// Populate pop-up page with data
-	chrome.storage.local.get(['dataService', 'timeDataWasLastFetched'], function(storage){
+	chrome.storage.local.get(['dataService', 'timeDataWasLastFetched', 'offpeakDataUsed'], function(storage){
 		var dataService = storage.dataService;
 		var u = getUsageInfoObject(dataService);
 
@@ -11,13 +11,30 @@ function displayUsageInfo () {
 		}
 		
 		$('#planName a').text(u.planName);
+		
+		// Normal data
 		$('#dataLimit').text(gbFormat(u.dataLimit));
 		$('#dataUsed').text(gbFormat(u.dataUsed));
 		$('#dataRemaining').text(gbFormat(u.dataRemaining));
+		
+		// Offpeak data
+		if (dataService.uncappedNightsEnabled == true) {
+			$('#offpeakDataUsed').text(gbFormat(storage.offpeakDataUsed));
+			$('tr.offpeakData').css('display', 'table-row');
+		}
 
-		$('#averageDailyUsage').text(gbFormat(u.averageDailyUsage));
+		// Estimates
+		$('#averageDailyUsage').html('<span class="tooltip">'+gbFormat(u.averageDailyUsage)+'</span>');
+		var averageDailyKB = u.averageDailyUsage * 1048576;
+		var averageDailyKBPerSecond = averageDailyKB / 86400;
+		$('#averageDailyUsage').attr('title', number_format(averageDailyKBPerSecond, 1) + ' KB/s');
+		
 		$('#monthlyEstimate').text(gbFormat(u.monthlyEstimate));
-		$('#suggestedDailyUsage').text(gbFormat(u.suggestedDailyUsage));
+		
+		$('#suggestedDailyUsage').html('<span class="tooltip">'+gbFormat(u.suggestedDailyUsage)+'</span>');
+		var kbRemaining = u.dataRemaining * 1048576; // 1 GB = 1048576 KB
+		var kbPerSecond = kbRemaining / u.secondsRemaining;
+		$('#suggestedDailyUsage').attr('title', number_format(kbPerSecond, 1) + ' KB/s');
 		
 		// Percentage bar
 		$('#unfilledPortion').css('width', (100 - (u.dataUsedPercentage * 100)) + '%');
@@ -84,8 +101,8 @@ function displayUsageInfo () {
 		
 		// Add white space for readability
 		$('tr.data').last().addClass('addWhiteSpaceBelow');
+		$('tr.offpeakData').last().addClass('addWhiteSpaceBelow');
 		$('tr.estimates').last().addClass('addWhiteSpaceBelow');
-		
 	});
 }
 

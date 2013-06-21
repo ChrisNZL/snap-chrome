@@ -15,7 +15,7 @@ function getUsageInfoObject (dataService) {
 	var daysRemaining = secondsRemaining / 86400;
 	var averageDailyUsage = dataUsed / daysElapsed;
 	var monthlyEstimate = averageDailyUsage * daysInBillingPeriod;
-	var suggestedDailyUsage = dataRemaining / daysRemaining;
+	var suggestedDailyUsage = Math.min(dataRemaining / daysRemaining, dataRemaining);
 	var barColor = monthlyEstimate > dataService.gigabyteLimit ? (dataUsed >= dataService.gigabyteLimit ? 'red' : 'orange') : 'green';
 	
 	return {
